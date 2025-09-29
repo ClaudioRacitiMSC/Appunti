@@ -168,7 +168,7 @@ Sostanziamente definisco un tipo di funzione, i tipi in ingresso e quelli in usc
 
 Una volta che ho il tipo della funzione, posso definire dove questa dev'essere usata, ma questa può essere implementata in maniera diversa.
 
-
+```C#
 
 // public static void SortArray<T>(T\[] array, Func<T, T, bool> comparator)
 
@@ -238,7 +238,7 @@ var lambda = (a,b) => a > b;
 
 SortArray<int>(mioArray, lambda);
 
-
+```
 
 Posso instanziare un delegato con delle funzioni anonime inline.
 
@@ -246,3 +246,140 @@ Posso instanziare un delegato con delle funzioni anonime inline.
 
 I delegati di tipo Action hanno return void, mentre i delegati Func ritornano l'ultimo valore definito.
 
+
+
+#### Eventi
+
+Nelle interfacce grafiche sono presenti gli eventi, ci si può registrare, sono un late binding mechanism.
+
+La sottoscrizione ad un evento crea un accoppiamento tra classi.
+
+È un accoppiamento abbastanza lasco, la classe chiamante è interessata solo a determinati eventi.
+
+
+
+Gli eventi sono definiti con la keyword **event**. 
+
+Il tipo dell'evento deve essere un **delegato**.
+
+La loro dichiarazione dev'essere un verbo o una frase verbale in tempo presente (present tense) per qualcosa che sta accadendo oppure tempo passato prossimo (past tense) per qualcosa che è accaduto.
+
+Il codice dev'essere tollerante al fatto che non ci siano sottoscrittori (con il punto interrogativo -> **?**).
+
+
+
+
+
+Una classe espone un evento nel seguente modo:
+
+```C#
+
+// Questa è la classe del pubblicatore
+
+public class Pippo
+
+{
+
+&nbsp;   // qui la classe pippo definisce un evento a cui ci si può sottoscrivere
+
+&nbsp;   public event EventHandler<EventArgs>? NomeDellEvento;
+
+
+
+&nbsp;   // qui è il metodo in cui l'evento viene "raised" e quindi vengono chiamati tutti i sottoscritti
+
+&nbsp;   public void Run()
+
+&nbsp;   {
+
+&nbsp;        NomeDellEvento?.Invoke(this, new EventArgs(/\*parametri corretti\*/));
+
+&nbsp;   }
+
+
+
+}
+
+
+
+// Questa è la classe del sottoscrittore
+
+public class Minnie
+
+{
+
+&nbsp;   // metodo che implementa il delegato, viene usato per sottoscriversi ad un evento
+
+&nbsp;   public void ImplementazioneDelDelegato(object? sender, EventArgs argomenti)
+
+&nbsp;   {
+
+&nbsp;       // corpo del metodo
+
+&nbsp;   }
+
+}
+
+
+
+protected static Main()
+
+{
+
+&nbsp;   Pippo pippo = new Pippo();
+
+&nbsp;   Minnie minnie = new Minie();
+
+&nbsp;   
+
+&nbsp;   // minnie si sottoscrive all'evento di pippo
+
+&nbsp;   pippo.NomeDellEvento += Minnie.ImplementazioneDelDelegato;
+
+
+
+
+
+&nbsp;   // pippo "raises" l'evento, e chiama tutti i metodi sottoscritti (quindi il metodo fornito da Minnie)
+
+&nbsp;   pippo.Run();
+
+
+
+&nbsp;   // minnie si disiscrive dall'evento
+
+&nbsp;   pippo.NomeDellEvento -= Minnie.ImplementazioneDellEvento;
+
+}
+
+```
+
+#### CLR
+
+Common intermediate language: crea dell'output intermedio, che supporta vari linguaggi.
+
+Tutti i linguaggi di programmazione compilano in CIL (common intermediate language), per poi essere compilati nel binario.
+
+C# code --> C# compiler --> Intermediate language (.exe oppure .dll) --> JIT compiler --> Codice binario (istruzioni di macchina)
+
+
+
+JIT compiler è gestito dal CLR -> prende il codice intermedio riga-per-riga e lo esegue.
+
+Fa da interprete al nostro codice e lo fa diventare codice nativo di macchina.
+
+
+
+Oltre al JustInTime esiste l' AheadOfTime (AOT), che produce codice macchina che è auto-contenuto ed è stato creato prima-del-tempo (di esecuzione).
+
+Può essere però utilizzato per una singola architettura (quindi combinazione cpu-gpu-ram-... che sono presenti nella configurazione del pc su cui è invocato).
+
+
+
+###### Pro del CLR 
+
+* Gestione della memoria: l'allocazione dinamica della memoria ha bisogno dell'allocazione e della de-allocazione (tramite garbage-collection)
+* Security boundaries: in ambienti cloud possono essere runnati processi di vari utenti simultaneamente, ma la sicurezza viene garantita dal CLR. (Non posso accedere a memoria e dati altrui e vice-versa)
+* Type safety: conosco i tipi tramite la reflection
+* Exception handling: lancia delle eccezioni quando si verificano condizioni anomale
+* Piccoli suggerimenti di miglioramento della performance 
