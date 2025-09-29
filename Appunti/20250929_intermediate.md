@@ -184,49 +184,49 @@ public static void SortArray<T>(T\[] array, Comparator<T> comparator)
 
 {
 
-&nbsp;   int n = array.Length;
+   int n = array.Length;
 
-&nbsp;   bool swapped;
+   bool swapped;
 
-&nbsp;   for (int i = 0; i < n - 1; i++)
+   for (int i = 0; i < n - 1; i++)
 
-&nbsp;   {
+   {
 
-&nbsp;       swapped = false;
+       swapped = false;
 
-&nbsp;       for (int j = 0; j < n - i - 1; j++)
+       for (int j = 0; j < n - i - 1; j++)
 
-&nbsp;       {
+       {
 
-&nbsp;	    // if (array\[j] < array\[j + 1])
+	    // if (array\[j] < array\[j + 1])
 
-&nbsp;           if (comparator(array\[j] , array\[j + 1]))
+           if (comparator(array\[j] , array\[j + 1]))
 
-&nbsp;           {
+           {
 
-&nbsp;               T temp = array\[j];
+               T temp = array\[j];
 
-&nbsp;               // int temp = array\[j];
+               // int temp = array\[j];
 
-&nbsp;               array\[j] = array\[j + 1];
+               array\[j] = array\[j + 1];
 
-&nbsp;               array\[j + 1] = temp;
+               array\[j + 1] = temp;
 
-&nbsp;               swapped = true;
+               swapped = true;
 
-&nbsp;           }
+           }
 
-&nbsp;       }
+       }
 
-&nbsp;       if (!swapped)
+       if (!swapped)
 
-&nbsp;       {
+       {
 
-&nbsp;            break;
+            break;
 
-&nbsp;       }
+       }
 
-&nbsp;   }
+   }
 
 }
 
@@ -280,21 +280,21 @@ public class Pippo
 
 {
 
-&nbsp;   // qui la classe pippo definisce un evento a cui ci si può sottoscrivere
+   // qui la classe pippo definisce un evento a cui ci si può sottoscrivere
 
-&nbsp;   public event EventHandler<EventArgs>? NomeDellEvento;
+   public event EventHandler<EventArgs>? NomeDellEvento;
 
 
 
-&nbsp;   // qui è il metodo in cui l'evento viene "raised" e quindi vengono chiamati tutti i sottoscritti
+   // qui è il metodo in cui l'evento viene "raised" e quindi vengono chiamati tutti i sottoscritti
 
-&nbsp;   public void Run()
+   public void Run()
 
-&nbsp;   {
+   {
 
-&nbsp;        NomeDellEvento?.Invoke(this, new EventArgs(/\*parametri corretti\*/));
+        NomeDellEvento?.Invoke(this, new EventArgs(/\*parametri corretti\*/));
 
-&nbsp;   }
+   }
 
 
 
@@ -308,15 +308,15 @@ public class Minnie
 
 {
 
-&nbsp;   // metodo che implementa il delegato, viene usato per sottoscriversi ad un evento
+   // metodo che implementa il delegato, viene usato per sottoscriversi ad un evento
 
-&nbsp;   public void ImplementazioneDelDelegato(object? sender, EventArgs argomenti)
+   public void ImplementazioneDelDelegato(object? sender, EventArgs argomenti)
 
-&nbsp;   {
+   {
 
-&nbsp;       // corpo del metodo
+       // corpo del metodo
 
-&nbsp;   }
+   }
 
 }
 
@@ -326,29 +326,29 @@ protected static Main()
 
 {
 
-&nbsp;   Pippo pippo = new Pippo();
+   Pippo pippo = new Pippo();
 
-&nbsp;   Minnie minnie = new Minie();
+   Minnie minnie = new Minie();
 
-&nbsp;   
+   
 
-&nbsp;   // minnie si sottoscrive all'evento di pippo
+   // minnie si sottoscrive all'evento di pippo
 
-&nbsp;   pippo.NomeDellEvento += Minnie.ImplementazioneDelDelegato;
-
-
+   pippo.NomeDellEvento += Minnie.ImplementazioneDelDelegato;
 
 
 
-&nbsp;   // pippo "raises" l'evento, e chiama tutti i metodi sottoscritti (quindi il metodo fornito da Minnie)
-
-&nbsp;   pippo.Run();
 
 
+   // pippo "raises" l'evento, e chiama tutti i metodi sottoscritti (quindi il metodo fornito da Minnie)
 
-&nbsp;   // minnie si disiscrive dall'evento
+   pippo.Run();
 
-&nbsp;   pippo.NomeDellEvento -= Minnie.ImplementazioneDellEvento;
+
+
+   // minnie si disiscrive dall'evento
+
+   pippo.NomeDellEvento -= Minnie.ImplementazioneDellEvento;
 
 }
 
